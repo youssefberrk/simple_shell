@@ -135,7 +135,7 @@ int _getline(info_t *info, char **ptr, size_t *length)
 		i = len = 0;
 
 	r = read_buf(info, buf, &len);
-	if (r == -1 || (r == 0 && len is 0))
+	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
 	c = _strchr(buf + i, '\n');
