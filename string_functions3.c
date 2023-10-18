@@ -71,5 +71,5 @@ char *_strchr(char *s, char c)
 		s++;
 	} while (*s != '\0');
 
-	return NULL;
+	return (NULL);
 }
