@@ -45,7 +45,7 @@ void ffree(char **pp)
  * @old_size: The byte size of the previous block.
  * @new_size: The byte size of the new block.
  *
- * Return: A pointer to the old block if realloc fails; otherwise, a pointer to the new block.
+ * Return: pointer to old block; otherwise, a pointer to the new block.
  */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {

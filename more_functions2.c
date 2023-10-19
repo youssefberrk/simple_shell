@@ -4,7 +4,7 @@
  * _erratoi - Converts a string to an integer.
  * @s: The string to be converted.
  *
- * Return: 0 if no numbers in the string, the converted number otherwise, -1 on error.
+ * Return: 0 if no numbers in the string, -1 on error.
  */
 int _erratoi(char *s)
 {
@@ -117,8 +117,7 @@ char *convert_number(long int num, int base, int flags)
 	ptr = &buffer[49];
 	*ptr = '\0';
 
-	do
-	{
+	do {
 		*--ptr = array[n % base];
 		n /= base;
 	} while (n != 0);

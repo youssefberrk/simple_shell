@@ -23,7 +23,7 @@ char *_strncpy(char *dest, char *src, int n)
 		i++;
 	}
 
-	return s;
+	return (s);
 }
 
 /**
@@ -53,7 +53,7 @@ char *_strncat(char *dest, char *src, int n)
 	if (j < n)
 		dest[i] = '\0';
 
-	return s;
+	return (s);
 }
 
 /**
@@ -67,7 +67,7 @@ char *_strchr(char *s, char c)
 {
 	do {
 		if (*s == c)
-			return s;
+			return (s);
 		s++;
 	} while (*s != '\0');
 
