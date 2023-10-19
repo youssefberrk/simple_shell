@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * **strtow - Split a string into words, ignoring repeat delimiters.
+ * strtow - Splits a string into words, ignoring repeat delimiters.
  * @str: The input string.
  * @d: The delimiter string.
  *
@@ -15,9 +15,9 @@ char **strtow(char *str, char *d)
 	if (str == NULL || str[0] == 0)
 		return (NULL);
 	if (!d)
-		d = "	";
+		d = " ";
 	for (i = 0; str[i] != '\0'; i++)
-		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1))
+		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
 			numwords++;
 
 	if (numwords == 0)
@@ -49,7 +49,7 @@ char **strtow(char *str, char *d)
 }
 
 /**
- * **strtow2 - Split a string into words using a single delimiter.
+ * strtow2 - Splits a string into words using a single delimiter character.
  * @str: The input string.
  * @d: The delimiter character.
  *
@@ -64,7 +64,7 @@ char **strtow2(char *str, char d)
 		return (NULL);
 	for (i = 0; str[i] != '\0'; i++)
 		if ((str[i] != d && str[i + 1] == d) ||
-		    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
+			(str[i] != d && !str[i + 1]) || str[i + 1] == d)
 			numwords++;
 	if (numwords == 0)
 		return (NULL);

@@ -41,7 +41,7 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 			}
 		}
 	}
-	return r;
+	return (r);
 }
 
 /**
@@ -60,7 +60,7 @@ ssize_t get_input(info_t *info)
 	_putchar(BUF_FLUSH);
 	r = input_buf(info, &buf, &len);
 	if (r == -1) /* EOF */
-		return -1;
+		return (-1);
 	if (len) /* Commands left in the chain buffer */
 	{
 		j = i; /* Initialize new iterator to current buffer position */
@@ -78,15 +78,15 @@ ssize_t get_input(info_t *info)
 		if (i >= len) /* Reached end of buffer? */
 		{
 			i = len = 0; /* Reset position and length */
-			info's cmd_buf_type = CMD_NORM;
+			info->cmd_buf_type = CMD_NORM;
 		}
 
 		*buf_p = p; /* Pass back pointer to current command position */
-		return _strlen(p); /* Return length of current command */
+		return (_strlen(p)); /* Return length of current command */
 	}
 
 	*buf_p = buf; /* Not a chain, pass back buffer from _getline() */
-	return r; /* Return length of buffer from _getline() */
+	return (r); /* Return length of buffer from _getline() */
 }
 
 /**
@@ -102,11 +102,11 @@ ssize_t read_buf(info_t *info, char *buf, size_t *i)
 	ssize_t r = 0;
 
 	if (*i)
-		return 0;
+		return (0);
 	r = read(info->readfd, buf, READ_BUF_SIZE);
 	if (r >= 0)
 		*i = r;
-	return r;
+	return (r);
 }
 
 /**
@@ -133,7 +133,7 @@ int _getline(info_t *info, char **ptr, size_t *length)
 
 	r = read_buf(info, buf, &len);
 	if (r == -1 || (r == 0 && len == 0))
-		return -1;
+		return (-1);
 
 	c = _strchr(buf + i, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;
@@ -153,7 +153,7 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	if (length)
 		*length = s;
 	*ptr = p;
-	return s;
+	return (s);
 }
 
 /**
