@@ -1,35 +1,6 @@
 #include "shell.h"
 
 /**
- * _myexit - Exits the shell.
- * @info: Structure with potential arguments for maintaining a constant
- *         function prototype.
- *
- * Return: Exits with a given exit status (0) if info.argv[0] is not "exit".
- */
-int _myexit(info_t *info)
-{
-	int exitcheck;
-
-	while (info->argv[1])
-	{
-		exitcheck = _erratoi(info->argv[1]);
-		if (exitcheck == -1)
-		{
-			info->status = 2;
-			print_error(info, "Illegal number: ");
-			_eputs(info->argv[1]);
-			_eputchar('\n');
-			return (1);
-		}
-		info->err_num = _erratoi(info->argv[1]);
-		return (-2);
-	}
-	info->err_num = -1;
-	return (-2);
-}
-
-/**
  * _mycd - Changes the current directory of the process.
  * @info: Structure with potential arguments for maintaining a constant
  *         function prototype.
@@ -45,7 +16,7 @@ int _mycd(info_t *info)
 	if (!s)
 		_puts("TODO: >>getcwd failure emsg here<<\n");
 
-	while (!info->argv[1])
+	if (!info->argv[1])
 	{
 		dir = _getenv(info, "HOME=");
 		if (!dir)
@@ -54,18 +25,8 @@ int _mycd(info_t *info)
 			chdir_ret = chdir(dir);
 	}
 
-	while (_strcmp(info->argv[1], "-") == 0)
-	{
-		if (!_getenv(info, "OLDPWD="))
-		{
-			_puts(s);
-			_putchar('\n');
-			return (1);
-		}
-		_puts(_getenv(info, "OLDPWD="));
-		_putchar('\n');
-		chdir_ret = chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
-	}
+	if (_strcmp(info->argv[1], "-") == 0)
+		return (handle_dash_case(info, s));
 
 	while (info->argv[1])
 	{
@@ -79,28 +40,44 @@ int _mycd(info_t *info)
 		_eputchar('\n');
 	}
 	else
-	{
-		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
-		_setenv(info, "PWD", getcwd(buffer, 1024));
-	}
+		update_env_and_pwd(info, buffer);
+
 	return (0);
 }
 
 /**
- * _myhelp - Displays help information (function not yet implemented).
+ * handle_dash_case - Handles the case when cd is called with "-" argument.
  * @info: Structure with potential arguments for maintaining a constant
  *         function prototype.
+ * @s: Current working directory.
  *
- * Return: Always 0.
+ * Return: 1 if successful; 0 otherwise.
  */
-int _myhelp(info_t *info)
+int handle_dash_case(info_t *info, char *s)
 {
-	char **arg_array;
+	if (!_getenv(info, "OLDPWD="))
+	{
+		_puts(s);
+		_putchar('\n');
+		return (1);
+	}
+	_puts(_getenv(info, "OLDPWD="));
+	_putchar('\n');
 
-	arg_array = info->argv;
-	_puts("help call works. Function not yet implemented\n");
-	if (0)
-		_puts(*arg_array); /* Temporary att_unused workaround */
-	return (0);
+	int chdir_ret = chdir(_getenv(info, "OLDPWD="));
+
+	return (chdir_ret == 0);
+}
+
+/**
+ * update_env_and_pwd - Updates environmental variables and current directory.
+ * @info: Structure with potential arguments for maintaining a constant
+ *         function prototype.
+ * @buffer: Buffer for storing the current working directory.
+ */
+void update_env_and_pwd(info_t *info, char *buffer)
+{
+	_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+	_setenv(info, "PWD", getcwd(buffer, 1024));
 }
 
