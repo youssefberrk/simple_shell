@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * main - entry point
- * @ac: arg count
- * @av: arg vector
+ * main - The entry point of the shell.
+ * @ac: The argument count.
+ * @av: The argument vector.
  *
- * Return: 0 on success, 1 on error
+ * Return: 0 on success, 1 on error.
  */
 int main(int ac, char **av)
 {
@@ -42,3 +42,4 @@ int main(int ac, char **av)
 	hsh(info, av);
 	return (EXIT_SUCCESS);
 }
+

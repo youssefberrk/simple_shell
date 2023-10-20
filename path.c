@@ -1,9 +1,9 @@
-#include"shell.h"
+#include "shell.h"
 
 /**
  * is_cmd - Check if a file is an executable command.
  * @info: The info struct.
- * @path: Path to the file.
+ * @path: The path to the file.
  *
  * Return: 1 if true, 0 otherwise.
  */
@@ -33,10 +33,9 @@ int is_cmd(info_t *info, char *path)
 char *dup_chars(char *pathstr, int start, int stop)
 {
 	static char buf[1024];
-	int k = 0;
-	int i;
+	int i = 0, k = 0;
 
-	for (i = start; i < stop; i++)
+	for (k = 0, i = start; i < stop; i++)
 		if (pathstr[i] != ':')
 			buf[k++] = pathstr[i];
 	buf[k] = 0;
@@ -44,18 +43,17 @@ char *dup_chars(char *pathstr, int start, int stop)
 }
 
 /**
- * find_path - Find a command in the PATH string.
+ * find_path - Find the full path of a command in the PATH string.
  * @info: The info struct.
  * @pathstr: The PATH string.
  * @cmd: The command to find.
  *
- * Return: Full path of the command if found, or NULL.
+ * Return: Full path of cmd if found, or NULL.
  */
 char *find_path(info_t *info, char *pathstr, char *cmd)
 {
-	int curr_pos = 0;
+	int i = 0, curr_pos = 0;
 	char *path;
-	int i;
 
 	if (!pathstr)
 		return (NULL);
@@ -64,7 +62,7 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
 		if (is_cmd(info, cmd))
 			return (cmd);
 	}
-	for (i = 0; 1; i++)
+	while (1)
 	{
 		if (!pathstr[i] || pathstr[i] == ':')
 		{
@@ -82,6 +80,7 @@ char *find_path(info_t *info, char *pathstr, char *cmd)
 				break;
 			curr_pos = i;
 		}
+		i++;
 	}
 	return (NULL);
 }
